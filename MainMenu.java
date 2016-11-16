@@ -4,11 +4,10 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Label;
 import java.awt.Panel;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -23,7 +22,7 @@ public class MainMenu implements ActionListener{
 		// TODO Auto-generated constructor stub
 		
 	}
-	//construct of class UI
+	
 	public void create() {	
 		JFrame menu = new JFrame("Main Menu");
     	menu.setSize(1800,1500);
@@ -92,6 +91,7 @@ public class MainMenu implements ActionListener{
 	        f.setVisible(true);
 	        myFrame.add(f);
 	      //  myFrame.add(game_tiles.getTile());
+	        //test1
 	}
 
 }
