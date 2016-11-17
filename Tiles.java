@@ -2,9 +2,10 @@ import java.util.*;
 
 public class Tiles {
 	private static String [][] tiles;
+	static String tile0 = "tltj";
 	static String tile1 = "jjjj";
 	static String tile2 = "llll";
-	static String tile3 = "tlgt";
+	static String tile3 = "tljt";
 	static String tile4 = "tltt";
 	static String tile5 = "jjjjd";
 	static String tile6 = "jjjjd";
@@ -34,52 +35,55 @@ public class Tiles {
 	static String tile30 = "jljl";
 	static String tile31 = "jljl";
 	static String tile32 = "jlttb";
-	static String tile33 = "tlltb";
-	static String tile34 = "tjtj";
-	static String tile35 = "tjtj";
+	static String tile33 = "jlttb";
+	static String tile34 = "tlltb";
+	static String tile35 = "tlltb";
 	static String tile36 = "tjtj";
 	static String tile37 = "tjtj";
 	static String tile38 = "tjtj";
 	static String tile39 = "tjtj";
 	static String tile40 = "tjtj";
 	static String tile41 = "tjtj";
-	static String tile42 = "ljlj";
-	static String tile43 = "ljlj";
+	static String tile42 = "tjtj";
+	static String tile43 = "tjtj";
 	static String tile44 = "ljlj";
-	//1+2??
-	static String tile45 = "tltj";
-	
-	static String tile46 = "ljtj";
-	static String tile47 = "tjjt";
-	static String tile48 = "tjjt";
-	static String tile49 = "tjjt";
+	static String tile45 = "ljlj";
+	static String tile46 = "ljlj";
+	static String tile47 = "tltj";
+	static String tile48 = "tltj";
+	static String tile49 = "ljtj";
 	static String tile50 = "tjjt";
 	static String tile51 = "tjjt";
 	static String tile52 = "tjjt";
 	static String tile53 = "tjjt";
 	static String tile54 = "tjjt";
 	static String tile55 = "tjjt";
-	static String tile56 = "ljjj";
-	static String tile57 = "ljjj";
-	static String tile58 = "ljjj";
+	static String tile56 = "tjjt";
+	static String tile57 = "tjjt";
+	static String tile58 = "tjjt";
 	static String tile59 = "ljjj";
 	static String tile60 = "ljjj";
-	static String tile61 = "tltjd";
-	static String tile62 = "tltjd";
-	static String tile63 = "ljtjd";
-	static String tile64 = "ljtjd";
-	static String tile65 = "tjtt";
-	static String tile66 = "tjtt";
-	static String tile67 = "tjtt";
+	static String tile61 = "ljjj";
+	static String tile62 = "ljjj";
+	static String tile63 = "ljjj";
+	static String tile64 = "tltjd";
+	static String tile65 = "tltjd";
+	static String tile66 = "ljtjd";
+	static String tile67 = "ljtjd";
 	static String tile68 = "tjtt";
-	static String tile69 = "jllj";
-	static String tile70 = "jllj";
-	static String tile71 = "tlll";
-	static String tile72 = "tlll";
+	static String tile69 = "tjtt";
+	static String tile70 = "tjtt";
+	static String tile71 = "tjtt";
+	static String tile72 = "jllj";
+	static String tile73 = "jllj";
+	static String tile74 = "tlll";
+	static String tile75 = "tlll";
+	static String tile76 = "tlll";
 	
 	
 	public static void main(String[] args){
-		tiles = new String[5][5];
+		int boardSize=77;
+		tiles = new String[boardSize][boardSize];
 		
 //		//Randomly fills the "board" 5x5 matrix
 //		for(int i=0;i<tiles.length;i++) {
@@ -104,20 +108,23 @@ public class Tiles {
 		tiles[1][4]=tile10;
 		tiles[2][0]=tile11;
 		tiles[2][1]=tile12;
-		tiles[2][2]="jjjj";
+		tiles[2][2]="jjjj";	//HARDCODED to TEST
 		tiles[2][3]=tile14;
 		tiles[2][4]=tile15;
 		tiles[3][0]=tile16;
-		tiles[3][1]="lljj";
-		tiles[3][2]="jlll";
-		tiles[3][3]="llll";
+		tiles[3][1]="lllj";	//HARDCODED to TEST
+		tiles[3][2]="jlll";	//HARDCODED to TEST
+		tiles[3][3]="llll";	//HARDCODED to TEST
 		tiles[3][4]=tile20;
 		tiles[4][0]=tile21;
-		tiles[4][1]=tile22;
+		tiles[4][1]="jljj"; //HARDCODED to TEST
 		tiles[4][2]=tile23;
 		tiles[4][3]=tile24;
 		tiles[4][4]=tile25;
 		
+		tiles[3][10]="jlll"; //HARDCODED to TEST
+		
+		//Print out the board tiles INCLUDING null (empty board space)
 		for(int i=0;i<tiles.length;i++) {
 			for(int j=0;j<tiles.length;j++) {
 				System.out.print(tiles[i][j]);
@@ -126,38 +133,76 @@ public class Tiles {
 			System.out.println();
 		}
 		
-		
+		//HARDCODED to TEST x and y of where user would click (3,2) valid, (3,1) not valid
 		int a = 3;
-		int b = 2;	
-		boolean validMove = validPlace(a,b);
+		int b = 1;	
 		
-		System.out.println(validMove);
+		boolean validMove = checkPlace(a,b);
+		
+		if(validMove==true) { 
+			System.out.println("Is this a valid placement? ");
+			System.out.println(validMove);
+		}
+		
+		while(validMove==false) {
+			System.out.println("Is this a valid placement?");
+			System.out.println(validMove);
+			
+			System.out.println("Before rotate");
+			System.out.println(tiles[a][b]);
+			
+			String rotate = rotate(a,b);
+			tiles[a][b] = rotate;
+			
+			System.out.println("After rotate");
+			System.out.println(tiles[a][b]);
+			
+			System.out.println("\nIs this a valid placement now?");
+			System.out.println("a is:" +a);
+			System.out.println("b is:" +b);
+			System.out.println(checkPlace(a,b));
+			
+			validMove = checkPlace(a,b);
+		}
 	}
 
-	public static boolean validPlace(int a, int b) {
+	public static boolean checkPlace(int a, int b) {
 		boolean left = false;
 		boolean right = false;
 		boolean top = false;
 		boolean bottom = false;
 		boolean valid = false;
 		
-		//check if same tile
-		System.out.println(tiles[3][2].charAt(0));
 		
+		if( tiles[a-1][b]==null){
+			top=true;
+		}
 		
-		if(tiles[a][b].charAt(0)==tiles[a-1][b].charAt(2)){
+		else if(tiles[a][b].charAt(0)==tiles[a-1][b].charAt(2)) {
 			top = true;
 		}
 		
-		if(tiles[a][b].charAt(2)==tiles[a+1][b].charAt(0)){
+		if(tiles[a+1][b]==null){
 			bottom = true;
 		}
 		
-		if(tiles[a][b].charAt(1)==tiles[a][b+1].charAt(3)){
+		else if(tiles[a][b].charAt(2)==tiles[a+1][b].charAt(0)) {
+			bottom = true;
+		}
+		
+		if(tiles[a][b+1]==null){
 			right = true;
 		}
 		
-		if(tiles[a][b].charAt(3)==tiles[a][b-1].charAt(1)){
+		else if(tiles[a][b].charAt(1)==tiles[a][b+1].charAt(3)) {
+			right = true;
+		}
+		
+		if(tiles[a][b-1]==null){
+			left = true;
+		}
+		
+		else if(tiles[a][b].charAt(3)==tiles[a][b-1].charAt(1)) {
 			left = true;
 		}
 		
@@ -166,6 +211,22 @@ public class Tiles {
 		}
 		return valid;
 		
+	}
+	
+	
+	//Allows user to rotate tile (does't affect boars, deer, etc.)
+	public static String rotate(int a, int b) {
+		char[] c = tiles[a][b].toCharArray();
+		
+		char temp = c[0];
+		c[0] = c[1];
+		c[1] = c[2];
+		c[2] = c[3];
+		c[3] = temp;
+
+		tiles[a][b] = new String(c);
+		
+		return tiles[a][b];
 	}
 	
 }
