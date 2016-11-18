@@ -95,89 +95,107 @@ public class Tiles {
 	    System.out.println("Tiles shuffled:");
 	    System.out.println(myList+ "\n");
 		
-		int boardSize=77;
+		int boardSize=5;
+		int totalTiles=77;
 		board = new String[boardSize][boardSize];
+		int tilesPlaced = 0;
 		
-//		//Randomly fills the "board" 5x5 matrix
-//		for(int i=0;i<tiles.length;i++) {
-//			for(int j=0;j<tiles.length;j++) {
-//				Random rand = new Random();
-//				tiles[i][j] = rand.nextInt(5);
-//				System.out.print(tiles[i][j]);
-//				System.out.print("\t");
-//			}
-//			System.out.println();
-//	    }
-		
-		board[0][0]=myList.get(0);
-		board[0][1]=myList.get(1);
-		board[0][2]=myList.get(2);
-		board[0][3]=myList.get(3);
-		board[0][4]=myList.get(4);
-		board[1][0]=myList.get(5);
-		board[1][1]=myList.get(6);
-		board[1][2]=myList.get(7);
-		board[1][3]=myList.get(8);
-		board[1][4]=myList.get(9);
-		board[2][0]=myList.get(10);
-		board[2][1]="jlll"; //HARDCODED to TEST
-		board[2][2]=myList.get(12);	
-		board[2][3]=myList.get(13);
-		board[2][4]=myList.get(14);
-		board[3][0]="tlttb";
-		board[3][1]="lllj";	//HARDCODED to TEST
-		board[3][2]="jlll";	//HARDCODED to TEST
-		board[3][3]=myList.get(18);	
-		board[3][4]=myList.get(19);
-		board[4][0]=myList.get(20);
-		board[4][1]="jljj"; //HARDCODED to TEST
-		board[4][2]=myList.get(22);
-		board[4][3]=myList.get(23);
-		board[4][4]=myList.get(24);
-		
-		board[3][10]="jlll"; //HARDCODED to TEST
-		
-		//Print out the board tiles INCLUDING null (empty board space)
-		for(int i=0;i<board.length;i++) {
-			for(int j=0;j<board.length;j++) {
-				System.out.print(board[i][j]);
-				System.out.print("\t");
+		while(tilesPlaced<totalTiles) {
+			//Show board for available spaces
+			//Print out the board tiles INCLUDING null (empty board space)
+			for(int i=0;i<board.length;i++) {
+				for(int j=0;j<board.length;j++) {
+					System.out.print(board[i][j]);
+					System.out.print("\t");
+				}
+				System.out.println();
 			}
-			System.out.println();
+			
+			Scanner scanner = new Scanner(System.in);
+		    System.out.println("Where would you like to place your tile: " + myList.get(tilesPlaced));
+		    System.out.println("Row?");
+		    int row = scanner.nextInt();
+		    System.out.println("Column?");
+		    int col = scanner.nextInt();
+		    
+			
+			/*
+			board[0][0]=myList.get(0);
+			board[0][1]=myList.get(1);
+			board[0][2]=myList.get(2);
+			board[0][3]=myList.get(3);
+			board[0][4]=myList.get(4);
+			board[1][0]=myList.get(5);
+			board[1][1]=myList.get(6);
+			board[1][2]=myList.get(7);
+			board[1][3]=myList.get(8);
+			board[1][4]=myList.get(9);
+			board[2][0]=myList.get(10);
+			board[2][1]="jlll"; //HARDCODED to TEST
+			board[2][2]=myList.get(12);	
+			board[2][3]=myList.get(13);
+			board[2][4]=myList.get(14);
+			board[3][0]="tlttb";
+			board[3][1]="lllj";	//HARDCODED to TEST
+			board[3][2]="jlll";	//HARDCODED to TEST
+			board[3][3]=myList.get(18);	
+			board[3][4]=myList.get(19);
+			board[4][0]=myList.get(20);
+			board[4][1]="jljj"; //HARDCODED to TEST
+			board[4][2]=myList.get(22);
+			board[4][3]=myList.get(23);
+			board[4][4]=myList.get(24);
+			
+			board[3][10]="jlll"; //HARDCODED to TEST
+			
+			*/				
+			
+			boolean validMove = checkPlace(row,col);
+			
+			if(validMove==true) { 
+				System.out.println("Is this a valid placement? ");
+				System.out.println(validMove);
+				
+				//Place tile
+				System.out.println("Place tile? (Y/N)");
+				String place = scanner.next();
+				System.out.println("You selected: " + place);
+				
+				if(place.equals("Y") || place.equals("y")) {
+					System.out.println("You selected yes");
+			
+					board[row][col] = myList.get(tilesPlaced);
+					tilesPlaced++;
+				}
+				
+				else {
+					System.out.println("You selected no");
+					
+				}
+			}
+			
+			while(validMove==false) {
+				System.out.println("Is this a valid placement?");
+				System.out.println(validMove);
+				
+				System.out.println("Before rotate");
+				System.out.println(board[row][col]);
+				
+				String rotate = rotate(row,col);
+				board[row][col] = rotate;
+				
+				System.out.println("After rotate");
+				System.out.println(board[row][col]);
+				
+				System.out.println("\nIs this a valid placement now?");
+				System.out.println("a is:" + row);
+				System.out.println("b is:" + col);
+				System.out.println(checkPlace(row,col));
+				
+				validMove = checkPlace(row,col);
+			}
 		}
-		
-		//HARDCODED to TEST x and y of where user would click (3,2) valid, (3,1) not valid
-		int a = 3;
-		int b = 1;	
-		
-		boolean validMove = checkPlace(a,b);
-		
-		if(validMove==true) { 
-			System.out.println("Is this a valid placement? ");
-			System.out.println(validMove);
-		}
-		
-		while(validMove==false) {
-			System.out.println("Is this a valid placement?");
-			System.out.println(validMove);
-			
-			System.out.println("Before rotate");
-			System.out.println(board[a][b]);
-			
-			String rotate = rotate(a,b);
-			board[a][b] = rotate;
-			
-			System.out.println("After rotate");
-			System.out.println(board[a][b]);
-			
-			System.out.println("\nIs this a valid placement now?");
-			System.out.println("a is:" +a);
-			System.out.println("b is:" +b);
-			System.out.println(checkPlace(a,b));
-			
-			validMove = checkPlace(a,b);
-		}
-	}
+  	}
 
 	public static boolean checkPlace(int a, int b) {
 		boolean left = false;
@@ -241,5 +259,5 @@ public class Tiles {
 		
 		return board[a][b];
 	}
-	
+  
 }
