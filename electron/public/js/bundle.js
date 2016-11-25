@@ -1,0 +1,1 @@
+console.error("SyntaxError: /Users/Kartik/Desktop/tiger-zone/app/components/Board.js: Unexpected token, expected ( (6:6) while parsing file: /Users/Kartik/Desktop/tiger-zone/app/components/Board.js");
