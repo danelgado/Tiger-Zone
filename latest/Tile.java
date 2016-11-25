@@ -9,6 +9,6 @@ public class Tile {
   Tile east = null;
   Tile south = null;
   Tile west = null;
-  Tile special_ft = null;
+
   
 }
