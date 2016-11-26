@@ -1,7 +1,7 @@
 public class Tile {
   
   char[] tileID;
-  bool ownTile = false;
+  boolean ownTile = false;
   int xCoord = 0;
   int yCoord = 0;
   int rotation = 0;
