@@ -118,12 +118,9 @@ public class TigerZone {
         int yCoord = 0;
         int rotation = 0;
 
-        output(curTile.tileID[0] + " - " + tileToPlace[2] + (curTile.north == null));
-
         if (curTile.north == null
                 && curTile.tileID[0] == tileToPlace[2]
                 && hasValidProx(tileToPlace, curTile.xCoord, curTile.yCoord + 1, 0)) {
-            System.out.println("north 0");
             xCoord = curTile.xCoord;
             yCoord = curTile.yCoord + 1;
             rotation = 0;
@@ -273,7 +270,7 @@ public class TigerZone {
             }
         }
 
-        if (replyMessage != null) {
+        if (replyMessage != null && !replyMessage.endsWith("NONE")) {
             replyMessage += " NONE";
             return replyMessage;
         } else {
@@ -285,58 +282,173 @@ public class TigerZone {
 
         boolean isValid = true;
 
-        System.out.println("validating...");
-
         for (int i = 0; i < stack.size(); i++) {
             Tile existingTile = stack.get(i);
 
+            String tid = "";
+            for (int j = 0; j < existingTile.tileID.length; j++) {
+                tid += existingTile.tileID[j];
+            }
+
+            output(tid + " - " + existingTile.xCoord + " " + existingTile.yCoord + " " + existingTile.rotation);
+
             // north
             if (existingTile.xCoord == x && existingTile.yCoord == y) {
-                if (rotation == 0 && existingTile.tileID[2] != tileIdToPlace[0])
-                    return false;
-                else if (rotation == 90 && existingTile.tileID[2] != tileIdToPlace[1])
-                    return false;
-                else if (rotation == 180 && existingTile.tileID[2] != tileIdToPlace[2])
-                    return false;
-                else if (rotation == 270 && existingTile.tileID[2] != tileIdToPlace[3])
-                    return false;
+                if (rotation == 0)
+                    if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[3] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[0] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[1] != tileIdToPlace[0])
+                        return false;
+                else if (rotation == 90)
+                    if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[3] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[0] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[1] != tileIdToPlace[1])
+                        return false;
+                else if (rotation == 180)
+                    if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[3] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[0] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[1] != tileIdToPlace[2])
+                        return false;
+                else if (rotation == 270)
+                    if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[3] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[0] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[1] != tileIdToPlace[3])
+                        return false;
             }
             // east
             if (existingTile.xCoord == x && existingTile.yCoord == y) {
-                if (rotation == 0 && existingTile.tileID[3] != tileIdToPlace[1])
-                    return false;
-                else if (rotation == 90 && existingTile.tileID[3] != tileIdToPlace[2])
-                    return false;
-                else if (rotation == 180 && existingTile.tileID[3] != tileIdToPlace[3])
-                    return false;
-                else if (rotation == 270 && existingTile.tileID[3] != tileIdToPlace[0])
-                    return false;
+                if (rotation == 0)
+                    if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[0] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[1] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[2] != tileIdToPlace[1])
+                        return false;
+                else if (rotation == 90)
+                    if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[0] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[1] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[2] != tileIdToPlace[2])
+                        return false;
+                else if (rotation == 180)
+                    if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[0] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[1] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[2] != tileIdToPlace[3])
+                        return false;
+                else if (rotation == 270)
+                    if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[0] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[1] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[2] != tileIdToPlace[3])
+                        return false;
             }
             // south
             if (existingTile.xCoord == x && existingTile.yCoord == y) {
-                if (rotation == 0 && existingTile.tileID[0] != tileIdToPlace[2])
-                    return false;
-                else if (rotation == 90 && existingTile.tileID[0] != tileIdToPlace[3])
-                    return false;
-                else if (rotation == 180 && existingTile.tileID[0] != tileIdToPlace[0])
-                    return false;
-                else if (rotation == 270 && existingTile.tileID[0] != tileIdToPlace[1])
-                    return false;
+                if (rotation == 0)
+                    if (existingTile.rotation == 0 && existingTile.tileID[0] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[1] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[2])
+                        return false;
+                else if (rotation == 90)
+                    if (existingTile.rotation == 0 && existingTile.tileID[0] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[1] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[3])
+                        return false;
+                else if (rotation == 180)
+                    if (existingTile.rotation == 0 && existingTile.tileID[0] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[1] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[0])
+                        return false;
+                else if (rotation == 270)
+                    if (existingTile.rotation == 0 && existingTile.tileID[0] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[1] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[2] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 0 && existingTile.tileID[3] != tileIdToPlace[1])
+                        return false;
             }
             // west
             if (existingTile.xCoord == x && existingTile.yCoord == y) {
-                if (rotation == 0 && existingTile.tileID[1] != tileIdToPlace[3])
-                    return false;
-                else if (rotation == 90 && existingTile.tileID[1] != tileIdToPlace[0])
-                    return false;
-                else if (rotation == 180 && existingTile.tileID[1] != tileIdToPlace[1])
-                    return false;
-                else if (rotation == 270 && existingTile.tileID[1] != tileIdToPlace[2])
-                    return false;
+                if (rotation == 0)
+                    if (existingTile.rotation == 0 && existingTile.tileID[1] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[2] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[3] != tileIdToPlace[3])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[0] != tileIdToPlace[3])
+                        return false;
+                else if (rotation == 90)
+                    if (existingTile.rotation == 0 && existingTile.tileID[1] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[2] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[3] != tileIdToPlace[0])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[0] != tileIdToPlace[0])
+                        return false;
+                else if (rotation == 180)
+                    if (existingTile.rotation == 0 && existingTile.tileID[1] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[2] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[3] != tileIdToPlace[1])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[0] != tileIdToPlace[1])
+                        return false;
+                else if (rotation == 270)
+                    if (existingTile.rotation == 0 && existingTile.tileID[1] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 90 && existingTile.tileID[2] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 180 && existingTile.tileID[3] != tileIdToPlace[2])
+                        return false;
+                    else if (existingTile.rotation == 270 && existingTile.tileID[0] != tileIdToPlace[2])
+                        return false;
             }
         }
-
-        System.out.println(isValid);
 
         return isValid;
     }
