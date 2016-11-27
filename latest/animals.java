@@ -26,22 +26,75 @@ public animals(){
 				prey == 'p' || 
 				prey == 'B' ||
 				prey == 'b'){
-				prey_present = true;
+					prey_present = true;
 			}
 			if( tiger_present && prey_present && !existingTile.ownTile) return place_croc;
 			
 		}
 		return null;
+	};
+	
+	//runs through most recent tiles placed
+	//ensures tile is not player's tile and if a tiger is present, that it is not the player's tiger
+	//priority for tiger placement goes to Dens
+	//then priority goes to Lakes 
 		
-	public String place_tiger(char[] tileID, int meeple){
-		String place_tiger = "TIGER 
 		
-		return place_tiger;
-		return null;
-	
-	
-	
-	}
+	public String place_tiger(Tile curTile){
+		boolean own; 
+		int location = 0;
+		String place_tiger = "TIGER" + location; 
+		if( curTile.tileID[5] == 'X') {
+			location = 5;
+			return place_tiger;
+		}
+		else {
+			for(int i=0; i< stack.size(); i++){
+				Tile existingTile = stack.get(i);
+				if ( !existingTile.ownTile && (existingTile.meeple > 9 || existingTile.meeple < 1) ) {
+					if (curTile.tileID == "LLLL-" ||
+						curTile.tileID == "JLLL-" ||
+						curTile.tileID == "JLJL-" ||
+						curTile.tileID == "TLLL-" ||
+						curTile.tileID == "TLLLC") location= 5;
+					else if ( curTile.tileID == "TLJT-" ||
+							  curTile.tileID == "TLJTP" ||
+							  curTile.tileID == "JLTT-" ||
+							  curTile.tileID == "JLTT-" ||
+							  curTile.tileID == "JLTTB" ||
+							  curTile.tileID == "TLTJ-" ||
+							  curTile.tileID == "TLTJD" ||
+							  curTile.tileID == "TLTT-" ||
+							  curTile.tileID == "TLTTP" ||
+							  curTile.tileID == "JLLJ-"){
+							if(curTile.rotation == 0 ) location = 6; 
+							else if (curTile.rotation == 90 ) location = 2;
+							else if ( curTile.rotation == 180 ) location = 4;
+							else if ( curTile.rotation == 270 ) location = 8;
+					}
+					else if ( curTile.tileID == "TLLT-" || curTile.tileID == "TLLTB"  ){
+						if(curTile.rotation == 0 ) location = 9; 
+						else if (curTile.rotation == 90 ) location = 3;
+						else if ( curTile.rotation == 180 ) location = 1;
+						else if ( curTile.rotation == 270 ) location = 7;
+						
+					}
+					else if ( curTile.tileID == "LJTJ-" ||
+							  curTile.tileID == "LJTJD" ||
+							  curTile.tileID == "LJLJ-" ||
+							  curTile.tileID == "LJJJ-" ||
+							  curTile.tileID == "LLJJ-"){
+							if ( curTile.rotation == 0) location = 2;
+							else if (curTile.rotation == 90 ) location = 4;
+							else if ( curTile.rotation == 180 ) location = 8;
+							else if ( curTile.rotation == 270 ) location = 6;
+					}
+					else if( location > 0) return place_tiger;
+				}
+			}
+			return null;
+		}
+	};
 		
     
    }
