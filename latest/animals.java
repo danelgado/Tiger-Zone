@@ -9,7 +9,7 @@ public animals(){
 	//returns String CROCODILE to concatenate with final return message or null if a crocodile 
 	//should not be placed.
 
-	public String place_croc(Stack<Tile> stack){
+	public String place_croc(ArrayList<Tile> stack){
 		
 		boolean tiger_present = false;
 		boolean prey_present = false;
@@ -40,14 +40,16 @@ public animals(){
 	//then priority goes to Lakes 
 		
 		
-	public String place_tiger(Tile curTile){
+	public String place_tiger(Tile curTile, ArrayList<Tile> stack){
 		boolean own; 
 		int location = 0;
 		String place_tiger = "TIGER" + location; 
+		// priority 1 = Den 
 		if( curTile.tileID[5] == 'X') {
 			location = 5;
 			return place_tiger;
 		}
+		// priority 2 = Lake
 		else {
 			for(int i=0; i< stack.size(); i++){
 				Tile existingTile = stack.get(i);
