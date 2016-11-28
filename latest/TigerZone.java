@@ -6,6 +6,8 @@ public class TigerZone {
 
     static Tile centerTile = new Tile();
     static ArrayList<Tile> stack = new ArrayList<Tile>();
+    static animals animalPlacement = new animals();
+    static player me = new player();
 
     public static void main(String[] args) {
         String hostName = args[0];
@@ -91,9 +93,10 @@ public class TigerZone {
         int rotation = Integer.parseInt(message[11]);
         String meeple = message[12];
         int meepleLoc = 0;
-        if (!meeple.equals("NONE")) {
+        if (meeple.equals("TIGER")) {
             meepleLoc = Integer.parseInt(message[13]);
-        }
+        } else if (meeple.equals("CROCODILE"))
+            meepleLoc = -1;
 
         Tile curTile = new Tile();
         for (int i = 0; i < stack.size(); i++) {
@@ -105,6 +108,7 @@ public class TigerZone {
         curTile.xCoord = x;
         curTile.yCoord = y;
         curTile.rotation = rotation;
+        curTile.meeple = meepleLoc;
     }
 
     public static String makeMove(String game, int move, String tileId, Tile curTile) {
@@ -241,10 +245,11 @@ public class TigerZone {
         if (xCoord != 0 || yCoord != 0) {
             Tile newTile = new Tile();
             newTile.tileID = tileToPlace;
-            newTile.tiger = 0;
+            newTile.meeple = 0;
             newTile.xCoord = xCoord;
             newTile.yCoord = yCoord;
             newTile.rotation = rotation;
+            newTile.ownTile = true;
             if (position.equals("north"))
                 curTile.north = newTile;
             else if (position.equals("east"))
@@ -270,9 +275,16 @@ public class TigerZone {
             }
         }
 
-        if (replyMessage != null && !replyMessage.endsWith("NONE")) {
-            replyMessage += " NONE";
-            return replyMessage;
+        if (replyMessage != null) {
+            String meeplePlace = null;
+            if (me.crocodiles > 0)
+                meeplePlace = animalPlacement.place_croc(me, curTile, stack);
+            if (meeplePlace == null && me.tigers > 0)
+                meeplePlace = animalPlacement.place_tiger(me, curTile, stack);
+            if (meeplePlace == null)
+                meeplePlace = " NONE";
+
+            return replyMessage += meeplePlace;
         } else {
             return null;
         }
@@ -289,8 +301,6 @@ public class TigerZone {
             for (int j = 0; j < existingTile.tileID.length; j++) {
                 tid += existingTile.tileID[j];
             }
-
-            output(tid + " - " + existingTile.xCoord + " " + existingTile.yCoord + " " + existingTile.rotation);
 
             // north
             if (existingTile.xCoord == x && existingTile.yCoord == y) {

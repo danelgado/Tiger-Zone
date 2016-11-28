@@ -1,4 +1,6 @@
+import java.util.*;
 import java.io.*;
+
 public class animals {
 
 //constructuor
@@ -10,11 +12,11 @@ public animals(){
 	//returns String CROCODILE to concatenate with final return message or null if a crocodile 
 	//should not be placed.
 
-	public String place_croc(ArrayList<Tile> stack){
+	public String place_croc(player me, Tile curTile, ArrayList<Tile> stack){
 		
 		boolean tiger_present = false;
 		boolean prey_present = false;
-		String place_croc= "CROCODILE";
+		String place_croc= null;
 		for(int i=0; i< stack.size(); i++ ){
 			Tile existingTile = stack.get(i);
 			char prey = existingTile.tileID[4];
@@ -29,7 +31,12 @@ public animals(){
 				prey == 'b'){
 					prey_present = true;
 			}
-			if( tiger_present && prey_present && !existingTile.ownTile) return place_croc;
+			if( tiger_present && prey_present && !existingTile.ownTile) {
+			    place_croc= " CROCODILE";
+                curTile.meeple = -1;
+                me.crocodiles--;
+                return place_croc;
+            }
 			
 		}
 		return null;
@@ -42,13 +49,14 @@ public animals(){
 	//then priority goes to Game-trails and Jungles
 		
 		
-	public String place_tiger(Tile curTile, ArrayList<Tile> stack){
+	public String place_tiger(player me, Tile curTile, ArrayList<Tile> stack){
 		boolean own; 
 		int location = 0;
-		String place_tiger = "TIGER" + location; 
+		String place_tiger = " TIGER " + location;
 		// priority 1 = Den 
 		if( curTile.tileID[4] == 'X') {
 			location = 5;
+			me.tigers--;
 			return place_tiger;
 		}
 		// priority 2 = Lake
@@ -57,7 +65,12 @@ public animals(){
 				Tile existingTile = stack.get(i);
 				String strID = String.valueOf(existingTile.tileID);
 				if ( !existingTile.ownTile && (existingTile.meeple > 9 || existingTile.meeple < 1) ) {
-					if (curTile.tileID[3] == 'L' ) location= 5;
+					if (curTile.tileID[3] == 'L' ) {
+					    location= 5;
+                        curTile.meeple = location;
+                        me.tigers--;
+					    return place_tiger;
+                    }
 					else if ( strID == "TLJT-" ||
 						  strID == "TLJTP" ||
 						  strID == "JLTT-" ||
@@ -72,12 +85,23 @@ public animals(){
 							else if (curTile.rotation == 90 ) location = 2;
 							else if ( curTile.rotation == 180 ) location = 4;
 							else if ( curTile.rotation == 270 ) location = 8;
+							else
+                            {
+                                curTile.meeple = location;
+								me.tigers--;
+                                return place_tiger;
+                            }
 					}
 					else if ( strID == "TLLT-" || strID == "TLLTB"  ){
 						if(curTile.rotation == 0 ) location = 9; 
 						else if (curTile.rotation == 90 ) location = 3;
 						else if ( curTile.rotation == 180 ) location = 1;
 						else if ( curTile.rotation == 270 ) location = 7;
+						else {
+                            curTile.meeple = location;
+							me.tigers--;
+						    return place_tiger;
+                        }
 						
 					}
 					else if ( strID == "LJTJ-" ||
@@ -89,9 +113,18 @@ public animals(){
 							else if (curTile.rotation == 90 ) location = 4;
 							else if ( curTile.rotation == 180 ) location = 8;
 							else if ( curTile.rotation == 270 ) location = 6;
+							else {
+                                curTile.meeple = location;
+								me.tigers--;
+							    return place_tiger;
+                            }
 					}
-					else location = 5;
-					return place_tiger;	
+					else {
+                        location = 5;
+                        curTile.meeple = location;
+						me.tigers--;
+                        return place_tiger;
+                    }
 				}
 			    }
 			}

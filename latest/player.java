@@ -1,8 +1,8 @@
 public class player{
 
-  int tigers = 7;
+  static int tigers = 7;
   
-  int crocodiles = 2;
+  static int crocodiles = 2;
   
   };
 
