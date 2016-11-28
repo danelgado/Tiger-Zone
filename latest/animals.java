@@ -1,3 +1,4 @@
+import java.io.*;
 public class animals {
 
 //constructuor
@@ -16,7 +17,7 @@ public animals(){
 		String place_croc= "CROCODILE";
 		for(int i=0; i< stack.size(); i++ ){
 			Tile existingTile = stack.get(i);
-			char prey = existingTile.tileID[5];
+			char prey = existingTile.tileID[4];
 			if (  existingTile.meeple > 0 || existingTile.meeple < 10 ) {
 				tiger_present = true;
 			}
@@ -38,6 +39,7 @@ public animals(){
 	//ensures tile is not player's tile and if a tiger is present, that it is not the player's tiger
 	//priority for tiger placement goes to Dens
 	//then priority goes to Lakes 
+	//then priority goes to Game-trails and Jungles
 		
 		
 	public String place_tiger(Tile curTile, ArrayList<Tile> stack){
@@ -45,7 +47,7 @@ public animals(){
 		int location = 0;
 		String place_tiger = "TIGER" + location; 
 		// priority 1 = Den 
-		if( curTile.tileID[5] == 'X') {
+		if( curTile.tileID[4] == 'X') {
 			location = 5;
 			return place_tiger;
 		}
@@ -53,49 +55,47 @@ public animals(){
 		else {
 			for(int i=0; i< stack.size(); i++){
 				Tile existingTile = stack.get(i);
+				String strID = String.valueOf(existingTile.tileID);
 				if ( !existingTile.ownTile && (existingTile.meeple > 9 || existingTile.meeple < 1) ) {
-					if (curTile.tileID == "LLLL-" ||
-						curTile.tileID == "JLLL-" ||
-						curTile.tileID == "JLJL-" ||
-						curTile.tileID == "TLLL-" ||
-						curTile.tileID == "TLLLC") location= 5;
-					else if ( curTile.tileID == "TLJT-" ||
-							  curTile.tileID == "TLJTP" ||
-							  curTile.tileID == "JLTT-" ||
-							  curTile.tileID == "JLTT-" ||
-							  curTile.tileID == "JLTTB" ||
-							  curTile.tileID == "TLTJ-" ||
-							  curTile.tileID == "TLTJD" ||
-							  curTile.tileID == "TLTT-" ||
-							  curTile.tileID == "TLTTP" ||
-							  curTile.tileID == "JLLJ-"){
+					if (curTile.tileID[3] == 'L' ) location= 5;
+					else if ( strID == "TLJT-" ||
+						  strID == "TLJTP" ||
+						  strID == "JLTT-" ||
+						  strID == "JLTT-" ||
+						  strID == "JLTTB" ||
+						  strID == "TLTJ-" ||
+						  strID == "TLTJD" ||
+						  strID == "TLTT-" ||
+						  strID == "TLTTP" ||
+						  strID == "JLLJ-"){
 							if(curTile.rotation == 0 ) location = 6; 
 							else if (curTile.rotation == 90 ) location = 2;
 							else if ( curTile.rotation == 180 ) location = 4;
 							else if ( curTile.rotation == 270 ) location = 8;
 					}
-					else if ( curTile.tileID == "TLLT-" || curTile.tileID == "TLLTB"  ){
+					else if ( strID == "TLLT-" || strID == "TLLTB"  ){
 						if(curTile.rotation == 0 ) location = 9; 
 						else if (curTile.rotation == 90 ) location = 3;
 						else if ( curTile.rotation == 180 ) location = 1;
 						else if ( curTile.rotation == 270 ) location = 7;
 						
 					}
-					else if ( curTile.tileID == "LJTJ-" ||
-							  curTile.tileID == "LJTJD" ||
-							  curTile.tileID == "LJLJ-" ||
-							  curTile.tileID == "LJJJ-" ||
-							  curTile.tileID == "LLJJ-"){
+					else if ( strID == "LJTJ-" ||
+						  strID == "LJTJD" ||
+						  strID == "LJLJ-" ||
+					          strID == "LJJJ-" ||
+					          strID == "LLJJ-"){
 							if ( curTile.rotation == 0) location = 2;
 							else if (curTile.rotation == 90 ) location = 4;
 							else if ( curTile.rotation == 180 ) location = 8;
 							else if ( curTile.rotation == 270 ) location = 6;
 					}
-					else if( location > 0) return place_tiger;
+					else location = 5;
+					return place_tiger;	
 				}
+			    }
 			}
-			return null;
-		}
+		return null;
 	};
 		
     
