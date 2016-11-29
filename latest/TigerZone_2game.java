@@ -103,7 +103,7 @@ public class TigerZone_2game {
     }
 
     public static void parseMove(String gameid, String[] message) {
-    //	String gameID = message[1];
+        //	String gameID = message[1];
         String opponent = message[5];
         char[] placedTile = message[7].toCharArray();
         int x = Integer.parseInt(message[9]);
@@ -137,7 +137,7 @@ public class TigerZone_2game {
 	        curTile.yCoord = y;
 	        curTile.rotation = rotation;
 	        curTile.meeple = meepleLoc;
-	
+
     }
 
     public static String makeMove(ArrayList<Tile> stack, player me, String game, int move, String tileId, Tile curTile) {
