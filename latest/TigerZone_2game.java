@@ -2,18 +2,18 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class TigerZone {
+public class TigerZone_2game {
 
     static Tile centerTile = new Tile();
     static ArrayList<Tile> stack1 = new ArrayList<Tile>();
-    static ArrayList<Tile> stack2 = new ArrayList<Tile>()
+    static ArrayList<Tile> stack2 = new ArrayList<Tile>();
     static animals animalPlacement = new animals();
     static player me1 = new player();
     static player me2 = new player();
 
     public static void main(String[] args) {
-    	static ArrayList<Tile> stack = new ArrayList<Tile>();
-    	static player me = new player();
+    	ArrayList<Tile> stack = new ArrayList<Tile>();
+    	player me = new player();
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
         String tournamentPassword = args[2];
@@ -118,7 +118,7 @@ public class TigerZone {
 
         Tile curTile = new Tile();
         if( gameid == "A" ){
-	        for (int i = 0; i < stack.size(); i++) {
+	        for (int i = 0; i < stack1.size(); i++) {
 	            if (stack1.get(i).tileID == placedTile) {
 	                curTile = stack1.get(i);
 	                break;
@@ -126,7 +126,7 @@ public class TigerZone {
 	        }
 	    }
 	    else{
-	    	for (int i = 0; i < stack.size(); i++) {
+	    	for (int i = 0; i < stack2.size(); i++) {
 	            if (stack2.get(i).tileID == placedTile) {
 	                curTile = stack2.get(i);
 	                break;
@@ -140,7 +140,7 @@ public class TigerZone {
 	
     }
 
-    public static String makeMove(ArrayList<Tile> stack, Player me, String game, int move, String tileId, Tile curTile) {
+    public static String makeMove(ArrayList<Tile> stack, player me, String game, int move, String tileId, Tile curTile) {
 
         char[] tileToPlace = tileId.toCharArray();
 
@@ -291,16 +291,16 @@ public class TigerZone {
             replyMessage += newTile.xCoord + " " + newTile.yCoord + " " + newTile.rotation;
 
         } else {
-            replyMessage = makeMove(game, move, tileId, curTile.north);
+            replyMessage = makeMove(stack, me, game, move, tileId, curTile.north);
 
             if (replyMessage == null) {
-                replyMessage = makeMove(game, move, tileId, curTile.east);
+                replyMessage = makeMove(stack, me, game, move, tileId, curTile.east);
             }
             if (replyMessage == null) {
-                replyMessage = makeMove(game, move, tileId, curTile.south);
+                replyMessage = makeMove(stack, me, game, move, tileId, curTile.south);
             }
             if (replyMessage == null) {
-                replyMessage = makeMove(game, move, tileId, curTile.west);
+                replyMessage = makeMove(stack, me, game, move, tileId, curTile.west);
             }
         }
 
