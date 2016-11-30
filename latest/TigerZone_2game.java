@@ -101,12 +101,14 @@ public class TigerZone_2game {
                         stack = stack1;
                         me = me1;
                         board = board1;
+                        gameId = gameid1;
 
                     }
                     else {
                     	stack = stack2;
                     	me = me2;
                         board  = board2;
+                        gameId = gameid2;
                     }
                     fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
                 }
@@ -134,7 +136,7 @@ public class TigerZone_2game {
             meepleLoc = -1;
 
         Tile curTile = new Tile();
-        if( gameid == "A" ){
+        if( gameid == gameid1 ){
 	        for (int i = 0; i < stack1.size(); i++) {
 	            if (stack1.get(i).tileID == placedTile) {
 	                curTile = stack1.get(i);
