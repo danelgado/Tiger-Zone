@@ -62,70 +62,81 @@ public animals(){
 			for(int i=0; i< stack.size(); i++){
 				Tile existingTile = stack.get(i);
 				String strID = String.valueOf(existingTile.tileID);
-				if ( !existingTile.ownTile && (existingTile.meeple > 9 || existingTile.meeple < 1) ) {
+				if( !existingTile.ownTile && (existingTile.meeple > 9 || existingTile.meeple < 1) ) {
 					if (curTile.tileID[3] == 'L' ) {
 						location= 5;
 						curTile.meeple = location;
 						me.tigers--;
 						return place_tiger;
-					    }
-					else if ( strID == "TLJT-" ||
-						  strID == "TLJTP" ||
-						  strID == "JLTT-" ||
-						  strID == "JLTT-" ||
-						  strID == "JLTTB" ||
-						  strID == "TLTJ-" ||
-						  strID == "TLTJD" ||
-						  strID == "TLTT-" ||
-						  strID == "TLTTP" ||
-						  strID == "JLLJ-"){
-							if(curTile.rotation == 0 ) location = 6; 
-							else if (curTile.rotation == 90 ) location = 2;
-							else if ( curTile.rotation == 180 ) location = 4;
-							else if ( curTile.rotation == 270 ) location = 8;
-							else{
-								curTile.meeple = location;
-								me.tigers--;
-								return place_tiger;
-                            				}
 					}
-					else if ( strID == "TLLT-" || strID == "TLLTB"  ){
+					else if(strID == "TLJT-" ||
+						strID == "TLJTP" ||
+						strID == "JLTT-" ||
+						strID == "JLTT-" ||
+						strID == "JLTTB" ||
+						strID == "TLTJ-" ||
+						strID == "TLTJD" ||
+						strID == "TLTT-" ||
+						strID == "TLTTP" ||
+						strID == "JLLJ-"){
+						if(curTile.rotation == 0 ) location = 6; 
+						else if (curTile.rotation == 90 ) location = 2;
+						else if ( curTile.rotation == 180 ) location = 4;
+						else if ( curTile.rotation == 270 ) location = 8;
+						curTile.meeple = location;
+						me.tigers--;
+						return place_tiger;		
+					}
+					else if(strID == "TLLT-" || strID == "TLLTB"  ){
 						if(curTile.rotation == 0 ) location = 9; 
 						else if (curTile.rotation == 90 ) location = 3;
 						else if ( curTile.rotation == 180 ) location = 1;
 						else if ( curTile.rotation == 270 ) location = 7;
-						else {
-                            				curTile.meeple = location;
-							me.tigers--;
-						   	 return place_tiger;
-                       				 }
-						
+						curTile.meeple = location;
+						me.tigers--;
+						return place_tiger;
 					}
-					else if ( strID == "LJTJ-" ||
-						  strID == "LJTJD" ||
-						  strID == "LJLJ-" ||
-					          strID == "LJJJ-" ||
-					          strID == "LLJJ-"){
-							if ( curTile.rotation == 0) location = 2;
-							else if (curTile.rotation == 90 ) location = 4;
-							else if ( curTile.rotation == 180 ) location = 8;
-							else if ( curTile.rotation == 270 ) location = 6;
-							else {
-                               					curTile.meeple = location;
-								me.tigers--;
-							    	return place_tiger;
-                           				 }
+					else if(strID == "LJTJ-" ||
+						strID == "LJTJD" ||
+						strID == "LJLJ-" ||
+						strID == "LJJJ-" ||
+						strID == "LLJJ-"){
+						if ( curTile.rotation == 0) location = 2;
+						else if (curTile.rotation == 90 ) location = 4;
+						else if ( curTile.rotation == 180 ) location = 8;
+						else if ( curTile.rotation == 270 ) location = 6;
+						curTile.meeple = location;
+						me.tigers--;
+						return place_tiger;
 					}
 					else {
 						location = 5;
 						curTile.meeple = location;
 						me.tigers--;
 						return place_tiger;
-                   			 }
-				}
-			    }
-			}
+					 }
+			     	}
+			   }
+		}
 		return null;
+	};
+	
+	public void meeple_return(Tile curTile, ArrayList<Tile> stack, player me ){
+		//check if Den is completed
+		if( (curTile.tileID[4] == 'D') && (curTile.meeple == 5) ){
+		    int X = curTile.xCoord;
+		    int Y = curTile.yCoord;
+		    int _count= 0;
+		    for (int i = 0; i < stack.size(); i++) {
+			Tile existingTile = stack.get(i); 
+			int newX = existingTile.XCoord;
+			int newY = existingTile.YCoord;
+			if ( (newX == X-1) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) _count++;
+			else if ( (newX == X) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) ) _count++;
+			else if ( (newX == X+1) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) ) _count++;
+		    }
+		    if ( _count == 8 ) me.tigers++;
+		}
 	};
 		
     
