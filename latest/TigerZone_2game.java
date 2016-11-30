@@ -12,12 +12,13 @@ public class TigerZone_2game {
     static animals animalPlacement = new animals();
     static player me1 = new player();
     static player me2 = new player();
+    static String gameid1 = null;
+    static String gameid2 = null;
   
 
-    public static void main(String[] args) {
-        String gameid1 = NULL;
-        String gameid2 = NULL;
-      
+    public static void main(String[] args){
+        
+        
     	ArrayList<Tile> stack = new ArrayList<Tile>();
         ArrayList<Tile> board = new ArrayList<Tile>();
     	player me = new player();
@@ -89,39 +90,38 @@ public class TigerZone_2game {
                     String gameID = message[1];
                     if (message[5] == opponent)
                         parseMove(gameID, message);
-                    } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
-                    String[] message = fromServer.split(" ");
-                    int moveId = Integer.parseInt(message[10]);
-                    String tileId = message[12];
-                    if ( gameid1 == null){
-                        gameid1 = message[5];
-                    }
-                    else if ( gameid2 == null){
-                        gameid2 = messsage[5];
-                    }
-                    else if( message[5] == gameid1){
-                        stack = stack1;
-                        me = me1;
-                        board = board1;
-                        gameId = gameid1;
+                    } 
+                    else if (fromServer.startsWith("MAKE YOUR MOVE")) {
+                        String[] message = fromServer.split(" ");
+                        int moveId = Integer.parseInt(message[10]);
+                        String tileId = message[12];
+                        String gameId= null;
+                        if (gameid1 == null) gameid1=message[5];
+                        else if (gameid2 == null) gameid2=message[5];
+                        else if(message[5] == gameid1){
+                            stack = stack1;
+                            me = me1;
+                            board = board1;
+                            gameId = gameid1;
+                        }
+                        else {
+                        	stack = stack2;
+                        	me = me2;
+                            board  = board2;
+                            gameId = gameid2;
+                        }
+                        fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
+                        
 
+                        if (fromUser != null) {
+                            System.out.println("Client: " + fromUser);
+                            out.println(fromUser);
+                        }
                     }
-                    else {
-                    	stack = stack2;
-                    	me = me2;
-                        board  = board2;
-                        gameId = gameid2;
-                    }
-                    fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
                 }
-
-                if (fromUser != null) {
-                    System.out.println("Client: " + fromUser);
-                    out.println(fromUser);
-                }
-            }
-        } catch (Exception e) {System.out.println(e);}
+            }catch (Exception e) {System.out.println(e);}
     }
+
 
     public static void parseMove(String gameid, String[] message) {
         //	String gameID = message[1];
@@ -337,7 +337,7 @@ public class TigerZone_2game {
             animalPlacement.meeple_return(curTile, stack, me);
             return replyMessage += meeplePlace;
         } else {
-            
+
             return null;
         }
     }

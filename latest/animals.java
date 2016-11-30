@@ -22,7 +22,7 @@ public animals(){
 			if (  existingTile.meeple > 0 || existingTile.meeple < 10 ) {
 				tiger_present = true;
 			}
-			if(     prey == 'D' || 
+			if( prey == 'D' || 
 				prey == 'd' || 
 				prey == 'P' || 
 				prey == 'p' || 
