@@ -585,4 +585,39 @@ public class TigerZone_2game {
       */
     }
 
+    public static Boolean isValidMove(ArrayList<Tile> board, Tile t, int x, int y){
+      Tile north = tileExplorer(board, x, y+1);
+      Tile east = tileExplorer(board, x+1, y);
+      Tile south = tileExplorer(board, x, y-1);
+      Tile west = tileExplorer(board, x-1, y);
+
+      if (north == null && east == null && south == null && west == null){
+        return false;
+      }
+      else if ( (t.tileID[0] == north.tileID[2] || north == null) &&
+                (t.tileID[1] == east.tileID[3] || east == null) &&
+                (t.tileID[2] == south.tileID[0] || south == null) &&
+                (t.tileID[3] == west.tileID[1] || west == null) ){ return true; }
+      else{ return false; }
+
+      /*
+        Checks tiles located one unit in each cardinal direction to see if the
+          placement of the current tile (t) is valid at the location (x, y).
+
+        If all cardinal tiles are null, then valid placement is not possible.
+
+        If at least 1 cardinal tile is non-null, the non-null tiles are checked for
+          edge agreement - the touching edges must be of the same type.
+
+          Check north
+            (t.tileID[0] == north.tileID[2] || north == null)
+          Check east
+            (t.tileID[1] == east.tileID[3] || east == null)
+          Check south
+            (t.tileID[2] == south.tileID[0] || south == null)
+          Check west
+            (t.tileID[3] == west.tileID[1] || west == null)
+      */
+    }
+
 }
