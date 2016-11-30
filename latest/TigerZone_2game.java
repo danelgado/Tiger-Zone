@@ -515,7 +515,7 @@ public class TigerZone_2game {
         Pls help me test.
       */
       Iterator<Tile> bItr = board.iterator();
-      while (itr.hasNext()){
+      while (bItr.hasNext()){
         Tile curTile = bItr.next();
         if (curTile.xCoord == x && curTile.yCoord == y){ return curTile; }
       }
@@ -523,6 +523,8 @@ public class TigerZone_2game {
     }
 
     public static char[] Rotate(Tile t){
+      if (t == null){ return null; }
+
       int len = t.tileID.length;
       char[] result = new char[len];
       int rotCount = t.rotation/90;
@@ -549,74 +551,101 @@ public class TigerZone_2game {
           the game object, but instead returns a tileID that represents the cardinally
           accurate form of the tile according to its rotation value.
 
-          Logic
-            1. Cast the chars of tileID as ASCII values and place them in an ArrayList.
-            2. Calculate the magnitude of the rotation as the quotient of the tile
-                rotation value and the value of quarter rotation (90).
-            3. Remove the head of the ASCII list and replaces it as the 4th element.
-                ArrayList.add(int i, E element) shifts the previous 4th element and all
-                subsequent elements to the right (adds 1 to the index), so this preserves
-                the tileID syntax. This single action is a 90 degree rotation and is
-                repeated x times, where x is the rotation magnitude determined in 2.
-            4. Recast ASCII values as char and add them in order to the char array to
-                be returned.
+        Logic
+          1. Cast the chars of tileID as ASCII values and place them in an ArrayList.
+          2. Calculate the magnitude of the rotation as the quotient of the tile
+              rotation value and the value of quarter rotation (90).
+          3. Remove the head of the ASCII list and replaces it as the 4th element.
+              ArrayList.add(int i, E element) shifts the previous 4th element and all
+              subsequent elements to the right (adds 1 to the index), so this preserves
+              the tileID syntax. This single action is a 90 degree rotation and is
+              repeated x times, where x is the rotation magnitude determined in 2.
+          4. Recast ASCII values as char and add them in order to the char array to
+              be returned.
 
-                Example: 1 counterclockwise rotation of tile TLLTB.
+              Example: 1 counterclockwise rotation of tile TLLTB.
 
-                  TLLTB -> LLTB -> LLTTB
+                TLLTB -> LLTB -> LLTTB
 
-                              -----------
-                             |t  trail   |
-                             |r         l|
-                             |a   bu    a|
-                             |i         k|
-                             |l  lake   e|
-                              -----------
-                                  VV
-                        1 COUNTERCLOCKWISE ROTATION
-                                  VV
-                              -----------
-                             |t  lake    |
-                             |r         l|
-                             |a   bu    a|
-                             |i         k|
-                             |l  trail  e|
-                              -----------
+                            -----------
+                           |t  trail   |
+                           |r         l|
+                           |a   bu    a|
+                           |i         k|
+                           |l  lake   e|
+                            -----------
+                                VV
+                      1 COUNTERCLOCKWISE ROTATION
+                                VV
+                            -----------
+                           |t  lake    |
+                           |r         l|
+                           |a   bu    a|
+                           |i         k|
+                           |l  trail  e|
+                            -----------
       */
     }
 
-    public static Boolean isValidMove(ArrayList<Tile> board, Tile t, int x, int y){
+    public static Boolean isValidMove(ArrayList<Tile> board, Tile t){
+      if (t == null){ return false; }
+
+      int x = t.xCoord;
+      int y = t.yCoord;
+
       Tile north = tileExplorer(board, x, y+1);
       Tile east = tileExplorer(board, x+1, y);
       Tile south = tileExplorer(board, x, y-1);
       Tile west = tileExplorer(board, x-1, y);
 
+      char[] tID = Rotate(t);
+      char[] nID = Rotate(north);
+      char[] eID = Rotate(east);
+      char[] sID = Rotate(south);
+      char[] wID = Rotate(west);
+
       if (north == null && east == null && south == null && west == null){
         return false;
       }
-      else if ( (t.tileID[0] == north.tileID[2] || north == null) &&
-                (t.tileID[1] == east.tileID[3] || east == null) &&
-                (t.tileID[2] == south.tileID[0] || south == null) &&
-                (t.tileID[3] == west.tileID[1] || west == null) ){ return true; }
+      else if ( (tID[0] == nID[2] || north == null) &&
+                (tID[1] == eID[3] || east == null) &&
+                (tID[2] == sID[0] || south == null) &&
+                (tID[3] == wID[1] || west == null) ){ return true; }
       else{ return false; }
 
       /*
         Checks tiles located one unit in each cardinal direction to see if the
-          placement of the current tile (t) is valid at the location (x, y).
+          placement of the current tile (t) is valid at the location (x, y) with
+          rotation r.
 
         If all cardinal tiles are null, then valid placement is not possible.
 
         If at least 1 cardinal tile is non-null, the non-null tiles are checked for
           edge agreement - the touching edges must be of the same type.
+      */
+    }
 
-          Check north
-            (t.tileID[0] == north.tileID[2] || north == null)
-          Check east
-            (t.tileID[1] == east.tileID[3] || east == null)
-          Check south
-            (t.tileID[2] == south.tileID[0] || south == null)
-          Check west
-            (t.tileID[3] == west.tileID[1] || west == null)
+    public static void placeTile(ArrayList<Tile> board, char[] tID, int x, int y, int r) {
+      Tile check = tileExplorer(board, x, y);
+      if (check == null){
+        Tile newTile = new Tile();
+        newTile.tileID = tID;
+        newTile.xCoord = x;
+        newTile.yCoord = y;
+        newTile.rotation = r;
+        if (isValidMove(board, newTile)){
+          board.add(newTile);
+        }
+      }
+      return;
+
+      /*
+        Creates tile tID at location (x, y) with rotation r.
+
+        1. Check if there is a tile already located at intended coordinates (x, y)
+              case (check == null):
+                a) Create a new Tile object with the corresponding input parameters
+                b) If move is valid, place the tile on the board.
       */
     }
 
