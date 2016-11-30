@@ -12,10 +12,12 @@ public class TigerZone_2game {
     static animals animalPlacement = new animals();
     static player me1 = new player();
     static player me2 = new player();
+  
 
     public static void main(String[] args) {
         String gameid1 = NULL;
         String gameid2 = NULL;
+      
     	ArrayList<Tile> stack = new ArrayList<Tile>();
         ArrayList<Tile> board = new ArrayList<Tile>();
     	player me = new player();
@@ -332,9 +334,10 @@ public class TigerZone_2game {
                 meeplePlace = animalPlacement.place_tiger(me, curTile, stack);
             if (meeplePlace == null)
                 meeplePlace = " NONE";
-
+            animalPlacement.meeple_return(curTile, stack, me);
             return replyMessage += meeplePlace;
         } else {
+            
             return null;
         }
     }
