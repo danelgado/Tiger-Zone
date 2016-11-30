@@ -85,7 +85,7 @@ public class TigerZone_2game {
                     String gameID = message[1];
                     if (message[5] == opponent)
                         parseMove(gameID, message);
-                } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
+                    } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
                     String[] message = fromServer.split(" ");
                     String gameId = message[5];
                     int moveId = Integer.parseInt(message[10]);
