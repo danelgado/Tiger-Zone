@@ -129,9 +129,9 @@ public animals(){
 		    int _count= 0;
 		    for (int i = 0; i < stack.size(); i++) {
 			Tile existingTile = stack.get(i); 
-			int newX = existingTile.XCoord;
-			int newY = existingTile.YCoord;
-			if ( (newX == X-1) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) _count++;
+			int newX = existingTile.xCoord;
+			int newY = existingTile.yCoord;
+			if ( (newX == X-1) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) ) _count++;
 			else if ( (newX == X) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) ) _count++;
 			else if ( (newX == X+1) && ( (newY == Y+1) || (newY == Y) || (newY == Y+1) ) ) _count++;
 		    }
