@@ -3,16 +3,19 @@ import java.io.*;
 import java.util.*;
 
 public class TigerZone_2game {
-
+    // board# is an ArrayList that will hold all tiles placed in the game thus far.
     static Tile centerTile = new Tile();
     static ArrayList<Tile> stack1 = new ArrayList<Tile>();
+    static ArrayList<Tile> board1 = new ArrayList<Tile>();
     static ArrayList<Tile> stack2 = new ArrayList<Tile>();
+    static ArrayList<Tile> board2 = new ArrayList<Tile>();
     static animals animalPlacement = new animals();
     static player me1 = new player();
     static player me2 = new player();
 
     public static void main(String[] args) {
     	ArrayList<Tile> stack = new ArrayList<Tile>();
+      ArrayList<Tile> board = new ArrayList<Tile>();
     	player me = new player();
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
@@ -58,9 +61,13 @@ public class TigerZone_2game {
                     centerTile.yCoord = Integer.parseInt(message[6]);
                     centerTile.rotation = Integer.parseInt(message[7]);
                     stack1.clear();
+                    board1.clear();
                     stack2.clear();
+                    board2.clear();
                     stack1.add(centerTile);
+                    board1.add(centerTile);
                     stack2.add(centerTile);
+                    board2.add(centerTile);
                     fromUser = null;
                 } else if (fromServer.startsWith("THE REMAINING")) {
                     String[] message = fromServer.split(" ");
@@ -86,12 +93,14 @@ public class TigerZone_2game {
                     if ( gameId == "A") {
                     	stack = stack1;
                     	me = me1;
+                      board = board1;
                     }
                     else {
                     	stack = stack2;
                     	me = me2;
+                      board  = board2;
                     }
-                    fromUser = makeMove(stack, me, gameId, moveId, tileId, centerTile);
+                    fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
                 }
 
                 if (fromUser != null) {
@@ -140,7 +149,7 @@ public class TigerZone_2game {
 
     }
 
-    public static String makeMove(ArrayList<Tile> stack, player me, String game, int move, String tileId, Tile curTile) {
+    public static String makeMove(ArrayList<Tile> stack, ArrayList<Tile> board, player me, String game, int move, String tileId, Tile curTile) {
 
         char[] tileToPlace = tileId.toCharArray();
 
@@ -279,6 +288,7 @@ public class TigerZone_2game {
             newTile.yCoord = yCoord;
             newTile.rotation = rotation;
             newTile.ownTile = true;
+            board.add(newTile);
             if (position.equals("north"))
                 curTile.north = newTile;
             else if (position.equals("east"))
@@ -291,16 +301,16 @@ public class TigerZone_2game {
             replyMessage += newTile.xCoord + " " + newTile.yCoord + " " + newTile.rotation;
 
         } else {
-            replyMessage = makeMove(stack, me, game, move, tileId, curTile.north);
+            replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.north);
 
             if (replyMessage == null) {
-                replyMessage = makeMove(stack, me, game, move, tileId, curTile.east);
+                replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.east);
             }
             if (replyMessage == null) {
-                replyMessage = makeMove(stack, me, game, move, tileId, curTile.south);
+                replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.south);
             }
             if (replyMessage == null) {
-                replyMessage = makeMove(stack, me, game, move, tileId, curTile.west);
+                replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.west);
             }
         }
 
@@ -495,4 +505,21 @@ public class TigerZone_2game {
     public static void output(String s) {
         System.out.println(s);
     }
+
+    public static Tile tileExplorer(ArrayList<Tile> board, int x, int y) {
+      /*
+        Logic:
+          1. Iterate through ArrayList until tile with matching x/y coordinates is
+              found. If no tile is found, return null or take proper action.
+
+        Pls help me test.
+      */
+      Iterator<Tile> itr = board.iterator();
+      while (itr.hasNext()){
+        Tile curTile = itr.next();
+        if (curTile.xCoord == x && curTile.yCoord == y){ return curTile; }
+      }
+      return null;
+    }
+
 }
