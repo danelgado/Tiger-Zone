@@ -514,12 +514,75 @@ public class TigerZone_2game {
 
         Pls help me test.
       */
-      Iterator<Tile> itr = board.iterator();
+      Iterator<Tile> bItr = board.iterator();
       while (itr.hasNext()){
-        Tile curTile = itr.next();
+        Tile curTile = bItr.next();
         if (curTile.xCoord == x && curTile.yCoord == y){ return curTile; }
       }
       return null;
+    }
+
+    public static char[] Rotate(Tile t){
+      int len = t.tileID.length;
+      char[] result = new char[len];
+      int rotCount = t.rotation/90;
+      ArrayList<Character> tid = new ArrayList<Character>();
+
+      for (int i = 0; i < len; i++){
+        tid.add(t.tileID[i]);
+      }
+
+      char temp;
+      while(rotCount > 0){
+        temp = tid.remove(0);
+        tid.add(3, temp);
+        rotCount--;
+      }
+
+      for (int i = 0; i < len; i++){
+        result[i] = tid.get(i).charValue();
+      }
+      return result;
+      /*
+        This method is used to simulate tile rotation by using a tileID that
+          represents the rotated tile. This method does not change the orientation of
+          the game object, but instead returns a tileID that represents the cardinally
+          accurate form of the tile according to its rotation value.
+
+          Logic
+            1. Cast the chars of tileID as ASCII values and place them in an ArrayList.
+            2. Calculate the magnitude of the rotation as the quotient of the tile
+                rotation value and the value of quarter rotation (90).
+            3. Remove the head of the ASCII list and replaces it as the 4th element.
+                ArrayList.add(int i, E element) shifts the previous 4th element and all
+                subsequent elements to the right (adds 1 to the index), so this preserves
+                the tileID syntax. This single action is a 90 degree rotation and is
+                repeated x times, where x is the rotation magnitude determined in 2.
+            4. Recast ASCII values as char and add them in order to the char array to
+                be returned.
+
+                Example: 1 counterclockwise rotation of tile TLLTB.
+
+                  TLLTB -> LLTB -> LLTTB
+
+                              -----------
+                             |t  trail   |
+                             |r         l|
+                             |a   bu    a|
+                             |i         k|
+                             |l  lake   e|
+                              -----------
+                                  VV
+                        1 COUNTERCLOCKWISE ROTATION
+                                  VV
+                              -----------
+                             |t  lake    |
+                             |r         l|
+                             |a   bu    a|
+                             |i         k|
+                             |l  trail  e|
+                              -----------
+      */
     }
 
 }
