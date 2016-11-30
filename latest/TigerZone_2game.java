@@ -14,8 +14,10 @@ public class TigerZone_2game {
     static player me2 = new player();
 
     public static void main(String[] args) {
+        String gameid1 = NULL;
+        String gameid2 = NULL;
     	ArrayList<Tile> stack = new ArrayList<Tile>();
-      ArrayList<Tile> board = new ArrayList<Tile>();
+        ArrayList<Tile> board = new ArrayList<Tile>();
     	player me = new player();
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
@@ -87,18 +89,24 @@ public class TigerZone_2game {
                         parseMove(gameID, message);
                     } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
                     String[] message = fromServer.split(" ");
-                    String gameId = message[5];
                     int moveId = Integer.parseInt(message[10]);
                     String tileId = message[12];
-                    if ( gameId == "A") {
-                    	stack = stack1;
-                    	me = me1;
-                      board = board1;
+                    if ( gameid1 == null){
+                        gameid1 = message[5];
+                    }
+                    else if ( gameid2 == null){
+                        gameid2 = messsage[5];
+                    }
+                    else if( message[5] == gameid1){
+                        stack = stack1;
+                        me = me1;
+                        board = board1;
+
                     }
                     else {
                     	stack = stack2;
                     	me = me2;
-                      board  = board2;
+                        board  = board2;
                     }
                     fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
                 }
