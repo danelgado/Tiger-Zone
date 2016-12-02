@@ -55,6 +55,12 @@ public class TigerZone_2game {
                     fromUser = null;
                 } else if (fromServer.startsWith("BEGIN ROUND")) {
                     fromUser = null;
+                } else if (fromServer.startsWith("END")){
+                    fromUser = null;
+                } else if(fromServer.startsWith("PLEASE WAIT")){
+                    fromUser = null;
+                } else if (fromServer.startsWith("THANK YOU")){
+                    fromUser = null;
                 } else if (fromServer.startsWith("YOUR OPPONENT IS")) {
                     fromUser = null;
                     String[] message = fromServer.split(" ");
@@ -132,32 +138,34 @@ public class TigerZone_2game {
         int rotation = Integer.parseInt(message[11]);
         String meeple = message[12];
         int meepleLoc = 0;
-        if (meeple.equals("TIGER")) {
-            meepleLoc = Integer.parseInt(message[13]);
-        } else if (meeple.equals("CROCODILE"))
-            meepleLoc = -1;
+        if(message[6]!="FORFEITED"){
+            if (meeple.equals("TIGER")) {
+                meepleLoc = Integer.parseInt(message[13]);
+            } else if (meeple.equals("CROCODILE"))
+                meepleLoc = -1;
 
-        Tile curTile = new Tile();
-        if( gameid == gameid1 ){
-	        for (int i = 0; i < stack1.size(); i++) {
-	            if (stack1.get(i).tileID == placedTile) {
-	                curTile = stack1.get(i);
-	                break;
-	            }
-	        }
-	    }
-	    else{
-	    	for (int i = 0; i < stack2.size(); i++) {
-	            if (stack2.get(i).tileID == placedTile) {
-	                curTile = stack2.get(i);
-	                break;
-	            }
-	        }
-	    }
-	        curTile.xCoord = x;
-	        curTile.yCoord = y;
-	        curTile.rotation = rotation;
-	        curTile.meeple = meepleLoc;
+            Tile curTile = new Tile();
+            if( gameid == gameid1 ){
+    	        for (int i = 0; i < stack1.size(); i++) {
+    	            if (stack1.get(i).tileID == placedTile) {
+    	                curTile = stack1.get(i);
+    	                break;
+    	            }
+    	        }
+    	    }
+    	    else{
+    	    	for (int i = 0; i < stack2.size(); i++) {
+    	            if (stack2.get(i).tileID == placedTile) {
+    	                curTile = stack2.get(i);
+    	                break;
+    	            }
+    	        }
+    	    }
+    	        curTile.xCoord = x;
+    	        curTile.yCoord = y;
+    	        curTile.rotation = rotation;
+    	        curTile.meeple = meepleLoc;
+        
 
     }
 
@@ -323,6 +331,9 @@ public class TigerZone_2game {
             }
             if (replyMessage == null) {
                 replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.west);
+            }
+            else {
+                return "GAME " + game + " MOVE " + move + "TILE" + tileId + "UNPLACEABLE PASS";
             }
         }
 
