@@ -59,8 +59,6 @@ public class TigerZone_2game {
                     fromUser = null;
                 } else if(fromServer.startsWith("PLEASE WAIT")){
                     fromUser = null;
-                } else if (fromServer.startsWith("THANK YOU")){
-                    fromUser = null;
                 } else if (fromServer.startsWith("YOUR OPPONENT IS")) {
                     fromUser = null;
                     String[] message = fromServer.split(" ");
