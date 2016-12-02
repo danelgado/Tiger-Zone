@@ -7,10 +7,11 @@ Fall 2016
 
 **Team U**
 
-Members:
+
 ___________________
 
--Chang, Amy
--Chaturvedi, Kartik
--Ollivierre, Khari
--Pozo, Kayla
+Members:
+- Chang, Amy
+- Chaturvedi, Kartik
+- Ollivierre, Khari
+- Pozo, Kayla
