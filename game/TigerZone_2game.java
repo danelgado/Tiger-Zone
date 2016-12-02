@@ -42,8 +42,7 @@ public class TigerZone_2game {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
 
-                if (fromServer.equals("THANK YOU FOR PLAYING! GOODBYE"))
-                    break;
+                if (fromServer.equals("THANK YOU FOR PLAYING! GOODBYE")) break;
 
                 if (fromServer.equals("THIS IS SPARTA!")) {
                     fromUser = "JOIN " + tournamentPassword;
@@ -88,14 +87,13 @@ public class TigerZone_2game {
                     }
                     // plan moves
                     //parsing "reading" from server
-                    } else if (fromServer.startsWith("GAME")) {
+                } else if (fromServer.startsWith("GAME")) {
                     fromUser = null;
                     String[] message = fromServer.split(" ");
                     String gameID = message[1];
                     if (message[5] == opponent)
                         parseMove(gameID, message);
-                    } 
-                    else if (fromServer.startsWith("MAKE YOUR MOVE")) {
+                } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
                         String[] message = fromServer.split(" ");
                         int moveId = Integer.parseInt(message[10]);
                         String tileId = message[12];
@@ -121,10 +119,10 @@ public class TigerZone_2game {
                             System.out.println("Client: " + fromUser);
                             out.println(fromUser);
                         }
-                    }
                 }
-            }catch (Exception e) {System.out.println(e);}
-    }
+            }
+        }catch (Exception e) {System.out.println(e);}
+    };
 
 
     public static void parseMove(String gameid, String[] message) {
@@ -163,9 +161,9 @@ public class TigerZone_2game {
     	        curTile.yCoord = y;
     	        curTile.rotation = rotation;
     	        curTile.meeple = meepleLoc;
-        
+        }
 
-    }
+    };
 
     public static String makeMove(ArrayList<Tile> stack, ArrayList<Tile> board, player me, String game, int move, String tileId, Tile curTile) {
 
@@ -349,7 +347,8 @@ public class TigerZone_2game {
 
             return null;
         }
-    }
+    };
+    
 
     public static boolean hasValidProx(ArrayList<Tile> stack, char[] tileIdToPlace, int x, int y, int rotation) {
 
