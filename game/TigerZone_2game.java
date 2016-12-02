@@ -113,12 +113,11 @@ public class TigerZone_2game {
                             gameId = gameid2;
                         }
                         fromUser = makeMove(stack, board, me, gameId, moveId, tileId, centerTile);
-                        
-
-                        if (fromUser != null) {
-                            System.out.println("Client: " + fromUser);
-                            out.println(fromUser);
-                        }
+                }
+                
+                if (fromUser != null) {
+                    System.out.println("Client: " + fromUser);
+                    out.println(fromUser);
                 }
             }
         }catch (Exception e) {System.out.println(e);}
@@ -329,7 +328,7 @@ public class TigerZone_2game {
                 replyMessage = makeMove(stack, board, me, game, move, tileId, curTile.west);
             }
             else {
-                return "GAME " + game + " MOVE " + move + "TILE" + tileId + "UNPLACEABLE PASS";
+                return "GAME " + game + " MOVE " + move + " TILE " + tileId + " UNPLACEABLE PASS";
             }
         }
 
