@@ -18,6 +18,6 @@ CEN 3031, Section 0656, Fall 2016
 
 ## Compile and execute
 * `git clone https://github.com/alc515/Tiger-Zone.git`
-* `cd Tiger-Zone`
+* `cd Tiger-Zone/game/`
 * `javac *.java`
 * `java TigerZone_2game [ip address] [port] [tournament password] [username] [password]`
