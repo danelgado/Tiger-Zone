@@ -1,20 +1,20 @@
 import java.util.*;
 import java.io.*;
 
-public class animals {
+public class Animals {
 
-//constructuor
-public animals(){
-}
+	//constructuor
+	public Animals() {
+	}
 	
 	//place_croc checks most recent tiles within proximity to recent one placed to check:
 	//surrounding tiles for opposing tiger placement and surrounding tiles for unique prey
 	//returns String CROCODILE to concatenate with final return message or null if a crocodile 
 	//should not be placed.
 
-	public String place_croc(player me, Tile curTile, ArrayList<Tile> stack){
+	public String place_croc(Player me, Tile curTile, ArrayList<Tile> stack) {
 		
-		for(int i=0; i< stack.size(); i++ ){
+		for(int i=0; i< stack.size(); i++ ) {
 			boolean tiger_present = false;
 			boolean prey_present = false;
 			Tile existingTile = stack.get(i);
@@ -22,40 +22,40 @@ public animals(){
 			if (  existingTile.meeple > 0 || existingTile.meeple < 10 ) {
 				tiger_present = true;
 			}
-			if( prey == 'D' || 
+			if (prey == 'D' || 
 				prey == 'd' || 
 				prey == 'P' || 
 				prey == 'p' || 
 				prey == 'B' ||
-				prey == 'b'){
+				prey == 'b') {
 					prey_present = true;
 			}
-			if( tiger_present && prey_present && !existingTile.ownTile) {
+			if (tiger_present && prey_present && !existingTile.ownTile) {
 				curTile.meeple = -1;
 				me.crocodiles--;
 				return " CROCODILE";
-           		 }
+           	}
 			
 		};
 		return null;
 	};
 	
 	//runs through most recent tiles placed
-	//ensures tile is not player's tile and if a tiger is present, that it is not the player's tiger
+	//ensures tile is not Player's tile and if a tiger is present, that it is not the Player's tiger
 	//priority for tiger placement goes to Dens
 	//then priority goes to Lakes 
 	//then priority goes to Game-trails and Jungles
 		
 		
-	public String place_tiger(player me, Tile curTile, ArrayList<Tile> stack){
+	public String place_tiger(Player me, Tile curTile, ArrayList<Tile> stack){
 		boolean own; 
 		int location = 0;
-		String place_tiger = " TIGER " + location;
+		String place_tiger = " TIGER ";
 		// priority 1 = Den 
-		if( curTile.tileID[4] == 'X') {
+		if (curTile.tileID[4] == 'X') {
 			location = 5;
 			me.tigers--;
-			return place_tiger;
+			return place_tiger + location;
 		}
 		// priority 2 = Lake
 		else {
@@ -67,61 +67,57 @@ public animals(){
 						location= 5;
 						curTile.meeple = location;
 						me.tigers--;
-						return place_tiger;
-					}
-					else if(strID == "TLJT-" ||
-						strID == "TLJTP" ||
-						strID == "JLTT-" ||
-						strID == "JLTT-" ||
-						strID == "JLTTB" ||
-						strID == "TLTJ-" ||
-						strID == "TLTJD" ||
-						strID == "TLTT-" ||
-						strID == "TLTTP" ||
-						strID == "JLLJ-"){
-						if(curTile.rotation == 0 ) location = 6; 
-						else if (curTile.rotation == 90 ) location = 2;
-						else if ( curTile.rotation == 180 ) location = 4;
-						else if ( curTile.rotation == 270 ) location = 8;
+						return place_tiger + location;
+					} else if(strID == "TLJT-" ||
+							strID == "TLJTP" ||
+							strID == "JLTT-" ||
+							strID == "JLTT-" ||
+							strID == "JLTTB" ||
+							strID == "TLTJ-" ||
+							strID == "TLTJD" ||
+							strID == "TLTT-" ||
+							strID == "TLTTP" ||
+							strID == "JLLJ-") {
+						if (curTile.rotation == 0) location = 6; 
+						else if (curTile.rotation == 90) location = 2;
+						else if (curTile.rotation == 180) location = 4;
+						else if (curTile.rotation == 270) location = 8;
 						curTile.meeple = location;
 						me.tigers--;
-						return place_tiger;		
-					}
-					else if(strID == "TLLT-" || strID == "TLLTB"  ){
-						if(curTile.rotation == 0 ) location = 9; 
-						else if (curTile.rotation == 90 ) location = 3;
-						else if ( curTile.rotation == 180 ) location = 1;
-						else if ( curTile.rotation == 270 ) location = 7;
+						return place_tiger + location;		
+					} else if (strID == "TLLT-" || strID == "TLLTB") {
+						if (curTile.rotation == 0)  location = 9; 
+						else if (curTile.rotation == 90) location = 3;
+						else if (curTile.rotation == 180) location = 1;
+						else if (curTile.rotation == 270) location = 7;
 						curTile.meeple = location;
 						me.tigers--;
-						return place_tiger;
-					}
-					else if(strID == "LJTJ-" ||
+						return place_tiger + location;
+					} else if (strID == "LJTJ-" ||
 						strID == "LJTJD" ||
 						strID == "LJLJ-" ||
 						strID == "LJJJ-" ||
-						strID == "LLJJ-"){
-						if ( curTile.rotation == 0) location = 2;
-						else if (curTile.rotation == 90 ) location = 4;
-						else if ( curTile.rotation == 180 ) location = 8;
-						else if ( curTile.rotation == 270 ) location = 6;
+						strID == "LLJJ-") {
+						if (curTile.rotation == 0) location = 2;
+						else if (curTile.rotation == 90) location = 4;
+						else if (curTile.rotation == 180) location = 8;
+						else if (curTile.rotation == 270) location = 6;
 						curTile.meeple = location;
 						me.tigers--;
-						return place_tiger;
-					}
-					else {
+						return place_tiger + location;
+					} else {
 						location = 5;
 						curTile.meeple = location;
 						me.tigers--;
-						return place_tiger;
-					 }
-			     	}
-			   }
+						return place_tiger + location;
+					}
+			    }
+			}
 		}
 		return null;
-	};
+	}
 	
-	public void meeple_return(Tile curTile, ArrayList<Tile> stack, player me ){
+	public void meeple_return(Tile curTile, ArrayList<Tile> stack, Player me ){
 		//check if Den is completed
 		if( (curTile.tileID[4] == 'D') && (curTile.meeple == 5) ){
 		    int X = curTile.xCoord;
@@ -140,4 +136,4 @@ public animals(){
 	};
 		
     
-   }
+}

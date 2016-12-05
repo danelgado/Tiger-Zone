@@ -11,4 +11,7 @@ public class Tile {
   Tile south = null;
   Tile west = null;
   
+  public String getTileID() {
+      return new String(tileID);
+  }
 }
