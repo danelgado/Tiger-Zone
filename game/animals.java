@@ -39,6 +39,33 @@ public animals(){
 		};
 		return null;
 	};
+	public String place_goat(player me, Tile curTile, ArrayList<Tile> stack){
+		
+		for(int i=0; i< stack.size(); i++ ){
+			boolean tiger_present = false;
+			boolean prey_present = false;
+			Tile existingTile = stack.get(i);
+			char prey = existingTile.tileID[4];
+			if (  existingTile.meeple > 0 || existingTile.meeple < 10 ) {
+				tiger_present = true;
+			}
+			if( prey == 'D' || 
+				prey == 'd' || 
+				prey == 'P' || 
+				prey == 'p' || 
+				prey == 'B' ||
+				prey == 'b'){
+					prey_present = true;
+			}
+			if( tiger_present && !prey_present) {
+				curTile.meeple = -1;
+				me.goats--;
+				return " GOAT";
+           		 }
+			
+		};
+		return null;
+	};
 	
 	//runs through most recent tiles placed
 	//ensures tile is not player's tile and if a tiger is present, that it is not the player's tiger
