@@ -285,7 +285,7 @@ public class TigerZone {
                 meeplePlace = animalPlacement.place_croc(me, curTile, stack);
             if (meeplePlace == null && me.tigers > 0)
                 meeplePlace = animalPlacement.place_tiger(me, curTile, stack);
-            if (meeplePlace ==  && me.goats > 0)
+            if (meeplePlace == null && me.goats > 0)
                 meeplePlace = animalPlacement.place_goat(me, curTile, stack);
             if (meeplePlace == null)
                 meeplePlace = " NONE";
