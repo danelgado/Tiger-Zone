@@ -67,6 +67,10 @@ public class TigerZone {
                 } else if (fromServer.startsWith("GAME")) {
                     fromUser = null;
                     String[] message = fromServer.split(" ");
+                    if(message[2] == "OVER")
+                    { 
+                        fromUser = "GAME "+game+" OVER PLAYER "+p1.id+" "+p1.score+" PLAYER "+p2.id+" "+p2.score;
+                    }
                     if (message[5] == opponent)
                         parseMove(message);
                 } else if (fromServer.startsWith("MAKE YOUR MOVE")) {
@@ -281,6 +285,8 @@ public class TigerZone {
                 meeplePlace = animalPlacement.place_croc(me, curTile, stack);
             if (meeplePlace == null && me.tigers > 0)
                 meeplePlace = animalPlacement.place_tiger(me, curTile, stack);
+            if (meeplePlace ==  && me.goats > 0)
+                meeplePlace = animalPlacement.place_goat(me, curTile, stack);
             if (meeplePlace == null)
                 meeplePlace = " NONE";
 
